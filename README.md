@@ -17,6 +17,6 @@
 | Types    | Links |
 | -------- | ------- |
 | Recreate | <a href="https://github.com/DevMadhup/Deployment-Strategies-kubernetes/tree/main/Recreate-deployment">Click me</a>     |
-| Rolling Update | <a href="#">Click me</a>     |
+| Rolling Update | <a href="https://github.com/DevMadhup/Deployment-Strategies-kubernetes/tree/main/Rolling-Update-Deployment">Click me</a>     |
 | Blue-green | <a href="#">Click me</a>     |
 | Canary | <a href="#">Click me</a>     |
