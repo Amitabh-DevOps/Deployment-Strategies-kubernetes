@@ -56,7 +56,7 @@ kubectl apply -f apache-canary-deployment.yaml
 
 - Now, go to nginx-canary-deployment.yaml and edit replicas field with 3 replicas, so now total we have 4 replicas (3 nginx and 1 apache)
  
-- Now try to access the web page on browser.
+- Now try to access the web page on browser and refresh repeatedly untill you see apache web page.
 
 ```bash
 http://<public-ip-nginx>:<nodeport>
