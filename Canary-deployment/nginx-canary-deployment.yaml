@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   labels:
     app: canary
-  name: canary
+  name: canary-nginx
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
       app: canary
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - image: nginx
-        name: canary
+        name: canary-nginx
 ---
 apiVersion: v1
 kind: Service
