@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: canary
-  name: canary
+  name: canary-apache
 spec:
   replicas: 1
   selector:
@@ -16,9 +16,8 @@ spec:
     spec:
       containers:
       - image: httpd
-        name: canary
+        name: canary-apache
         ports:
           - name: http
             containerPort: 80
             protocol: TCP
-            
