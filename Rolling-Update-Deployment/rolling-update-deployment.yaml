@@ -2,34 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: nginx
-  name: nginx
+    app: online-shop
+  name: online-shop
+  namespace: rolling-ns
 spec:
   replicas: 4
   strategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: nginx
+      app: online-shop
   template:
     metadata:
       labels:
-        app: nginx
+        app: online-shop
     spec:
       containers:
-      - image: nginx
-        name: nginx
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: rolling-update-service
-spec:
-  selector:
-    app: nginx
-  type: NodePort
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30000
+      - image: amitabhdevops/online_shop
+        name: online-shop
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+
