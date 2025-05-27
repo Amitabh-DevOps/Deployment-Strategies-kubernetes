@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: nginx
+  namespace: recreate-ns
   labels:
     app: nginx
-  name: nginx
 spec:
   replicas: 4
   strategy:
@@ -19,17 +20,10 @@ spec:
       containers:
       - image: nginx
         name: nginx
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: recreate-service
-spec:
-  selector:
-    app: nginx
-  type: NodePort
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30000
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
