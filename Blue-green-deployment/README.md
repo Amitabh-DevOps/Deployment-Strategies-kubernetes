@@ -33,11 +33,11 @@
 
 4. Kubectl Installed
 
-5. Kind Cluster running(Use `kind-config.yml` file present in this directory.)
+5. Kind Cluster running(Use `kind-config.yml` file present in this root directory.)
 
 >   [!NOTE]
 > 
->   You can create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
+>   You have to go inside root dir of this repo and create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
 
 ---
 
