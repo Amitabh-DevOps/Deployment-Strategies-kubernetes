@@ -30,35 +30,51 @@
 
 ---
 
-### Steps to implement Blue Green deployment
+### Steps to implement Canary deployment
 
-- Apply the both deployment manifests (nginx-blue-deployment.yaml and apache-green-deployment.yaml) present in the current directory.
-```bash
-kubectl apply -f nginx-canary-deployment.yaml
-```
+- Apply the both deployment manifests (`onlineshop-canary-deployment.yaml` and `onlineshop-without-footer-canary-deployment.yaml`) present in the current directory.
 
-- Open a new tab and run the watch command to monitor the deployment
-```bash
-watch kubectl get pods
-```
+    ```bash
+    kubectl apply -f onlineshop-canary-deployment.yaml
+    ```
 
-- It will deploy nginx web page and apache web page, now try to access the web page on browser.
+- Open a new tab of terminal and run the watch command to monitor the deployment
 
-```bash
-http://<public-ip-nginx>:<nodeport>
-``` 
+    ```bash
+    watch kubectl get pods
+    ```
 
-- Now, apply apache-canary-deployment.yaml with one replica.
+- It will deploy `online shop web page` and `online shop without footer web page`, now try to access the web page on browser.
 
-```bash
-kubectl apply -f apache-canary-deployment.yaml
-```
+- Run this command to get all resources created in `canary-ns` namespace.
 
-- Now, go to nginx-canary-deployment.yaml and edit replicas field with 3 replicas, so now total we have 4 replicas (3 nginx and 1 apache)
+    ```bash
+    kubectl get all -n canary-ns
+    ```
+
+- Forward the svc port to the EC2 instance port 3000
+
+    ```bash
+    kubectl port-forward --address 0.0.0.0 svc/canary-deployment-service 3000:3000 -n canary-ns &
+    ```
+
+- Open the inbound rule for port 3000 in that EC2 Instance and check the application at URL:
+
+    ```bash
+    http://<Your_Instance_Public_Ip>:3000
+    ```
+
+- Now, apply `onlineshop-without-footer-canary-deployment.yaml` with one replica.
+
+    ```bash
+    kubectl apply -f onlineshop-without-footer-canary-deployment.yaml
+    ```
+
+- Now, go to `onlineshop-canary-deployment.yaml` and edit replicas field with 3 replicas, so now total we have 4 replicas (`3 with footer` and `1 without footer`)
  
-- Now try to access the web page on browser and refresh repeatedly untill you see apache web page.
+- Now try to access the web page on browser and refresh repeatedly untill you see online shop without footer web page.
 
-```bash
-http://<public-ip-nginx>:<nodeport>
-```
+    ```bash
+    http://<Your_Instance_Public_Ip>:3000
+    ```
 
