@@ -83,6 +83,14 @@
     ```
 
 - Now, go to `onlineshop-canary-deployment.yaml` and edit replicas field with 3 replicas, so now total we have 4 replicas (`3 with footer` and `1 without footer`)
+
+- Now, apply the manifest file
+
+    ```bash
+    kubectl apply -f onlineshop-canary-deployment.yaml
+    ```
+
+- You can check the terminal for exactly what happening, Where you have ran `watch kubectl get pods -n canary-ns`
  
 - Now try to access the web page on browser and refresh repeatedly untill you see online shop without footer web page.
 
