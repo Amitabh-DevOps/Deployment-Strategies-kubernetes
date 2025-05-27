@@ -72,7 +72,7 @@
     watch kubectl get pods
     ```
 
-- You have successfully accessed the online_shop webpage. Now edit the deployment file and change the image from <b>online_shop</b> to <b>online_shop_without_footer</b> and apply.
+- You have successfully accessed the online_shop webpage. Now edit the deployment file and change the image from <b>`online_shop`</b> to <b>`online_shop_without_footer`</b> and apply.
 
     ```bash
     kubectl apply -f . 
@@ -85,3 +85,9 @@
     ```
 
 - Immediately go to second tab where ran watch command and monitor (It will delete all the pods and then create new ones).
+
+>   [!NOTE]
+>   
+>   If you can not access web app after the update, check your terminal, you probabily got a `error: lost connection to pod`.
+>
+>   No worry about it, again forward the svc port and you can access the app on your respective browser.
