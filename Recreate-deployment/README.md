@@ -76,6 +76,7 @@
     ```
 
 or, You can only apply deployment file
+
         ```bash
         kubectl apply -f recreate-deployment.yml
         ```
