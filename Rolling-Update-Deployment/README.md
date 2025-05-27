@@ -36,7 +36,7 @@
 
 >   [!NOTE]
 > 
->   You can create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
+>   You have to go inside root dir of this repo and create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
 
 ---
 
