@@ -76,9 +76,8 @@
     ```
 
 or, You can only apply deployment file
-
-    ```bash
-    kubectl apply -f recreate-deployment.yml
-    ```
+        ```bash
+        kubectl apply -f recreate-deployment.yml
+        ```
 
 - Immediately go to second tab where ran watch command and monitor (It will delete all the pods and then create new ones).
