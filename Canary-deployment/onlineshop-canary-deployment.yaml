@@ -3,10 +3,10 @@ kind: Deployment
 metadata:
   labels:
     app: canary
-  name: canary-online-shop
+  name: canary-online-shop-v2 # This is the name of the deployment, should be different from the other deployment file
   namespace: canary-ns
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
       app: canary
