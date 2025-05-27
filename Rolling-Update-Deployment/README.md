@@ -69,7 +69,7 @@
 - Open a new tab of terminal and connect your EC2 instance and run the watch command to monitor the deployment
 
     ```bash
-    watch kubectl get pods
+    watch kubectl get pods -n rolling-ns
     ```
 
 - You have successfully accessed the online_shop webpage. Now edit the deployment file and change the image from <b>`online_shop`</b> to <b>`online_shop_without_footer`</b> and apply.
