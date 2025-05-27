@@ -23,40 +23,76 @@
 
 ---
 
+### Prerequisites to try this:
+
+1. EC2 Instance with Ubuntu OS
+
+2. Docker installed & Configured
+
+3. Kind Installed
+
+4. Kubectl Installed
+
+5. Kind Cluster running(Use `kind-config.yml` file present in this directory.)
+
+>   [!NOTE]
+> 
+>   You can create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
+
+---
+
 ### Steps to implement Blue Green deployment
 
-- Apply the both deployment manifests (nginx-blue-deployment.yaml and apache-green-deployment.yaml) present in the current directory.
-```bash
-kubectl apply -f nginx-blue-deployment.yaml
-kubectl apply -f apache-green-deployment.yaml
-```
+- Apply the both deployment manifests (`online-shop-without-footer-blue-deployment.yaml` and `online-shop-green-deployment.yaml`) present in the current directory.
 
-- Open a new tab and run the watch command to monitor the deployment
-```bash
-watch kubectl get pods
-```
+    ```bash
+    kubectl apply -f online-shop-without-footer-blue-deployment.yaml
+    kubectl apply -f online-shop-green-deployment.yaml
+    ```
 
-- It will deploy nginx web page (Blue environment) and apache web page (Green environment), now try to access the blue environment (nginx) web page on browser.
+- Open a new tab of terminal and run the watch command to monitor the deployment
 
-```bash
-http://<public-ip-nginx>:<nodeport>
-```
+    ```bash
+    watch kubectl get pods -n online-shop-blue
+    ```
+
+- It will deploy online shop web page without footer (Blue environment) and online shop web page with footer as a new feature (Green environment), now try to access the blue environment web page on browser.
+
+- Run this command to get all resources created in `blue-green-ns` namespace.
+
+    ```bash
+    kubectl get all -n blue-green-ns
+    ```
+
+- Forward the `online-shop-blue` svc port to the EC2 instance port 3000
+
+    ```bash
+    kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service 3000:3000 -n blue-green-ns &
+    ```
+
+- Open the inbound rule for port 3000 in that EC2 Instance and check the application at URL:
+
+    ```bash
+    http://<Your_Instance_Public_Ip>:3000
+    ```
+
 ![image](https://github.com/user-attachments/assets/7c73464a-2e4d-4a6a-9b60-207d72d5b66a)
 
 > Note: Check the URL and port carefully 
 
-- Now, go to the nginx-blue-deployment.yaml manifest file and edit the service's selector field with **apache-green** selector.
+- Now, go to the `online-shop-without-footer-blue-deployment.yaml` manifest file and edit the service's selector field with **online-shop-green** selector.
 
 ![image](https://github.com/user-attachments/assets/5fa85a34-55b1-458b-ac56-c07b3ec91f06)
 
 ![image](https://github.com/user-attachments/assets/9c4732e1-db91-417d-b04f-c46a3fb5d13a)
 
-- Apply nginx-blue-deployment.yaml
-```bash
-kubectl apply -f nginx-blue-deployment.yaml
-```
+- Apply `online-shop-without-footer-blue-deployment.yaml`
 
-- Go to the same blue environment (nginx) web page and reload the webpage, you will see apache this time. It means you have successfully switched the traffic from blue environment to the green environment.
+    ```bash
+    kubectl apply -f online-shop-without-footer-blue-deployment.yaml
+    ```
+
+- Go to the same blue environment (without footer online shop) web page and reload the webpage, you will see with footer web page this time. It means you have successfully switched the traffic from blue environment to the green environment.
 
 ![image](https://github.com/user-attachments/assets/8b154fbc-dd68-45da-95d9-c6238e831ebe)
 
