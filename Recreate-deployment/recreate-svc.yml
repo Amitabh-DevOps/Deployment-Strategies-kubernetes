@@ -5,7 +5,7 @@ metadata:
   namespace: recreate-ns
 spec:
   selector:
-    app: nginx
+    app: online_shop
   type: NodePort
   ports:
     - protocol: TCP

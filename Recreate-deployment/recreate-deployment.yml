@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: online_shop
   namespace: recreate-ns
   labels:
-    app: nginx
+    app: online_shop
 spec:
   replicas: 4
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: nginx
+      app: online_shop
   template:
     metadata:
       labels:
-        app: nginx
+        app: online_shop
     spec:
       containers:
-      - image: nginx
-        name: nginx
+      - image: amitabhdevops/online_shop
+        name: online_shop
         resources:
           limits:
             cpu: "500m"
