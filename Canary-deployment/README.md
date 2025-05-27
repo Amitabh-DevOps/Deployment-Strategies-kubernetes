@@ -50,16 +50,16 @@
 
 ### Steps to implement Canary deployment
 
-- Apply the both deployment manifests (`onlineshop-canary-deployment.yaml` and `onlineshop-without-footer-canary-deployment.yaml`) present in the current directory.
+- Apply the both deployment manifests (`onlineshop-canary-deployment.yaml` and `onlineshop-without-footer-canary-deployment.yaml`) and all manifest files present in the current directory.
 
     ```bash
-    kubectl apply -f onlineshop-canary-deployment.yaml
+    kubectl apply -f .
     ```
 
 - Open a new tab of terminal and run the watch command to monitor the deployment
 
     ```bash
-    watch kubectl get pods
+    watch kubectl get pods -n canary-ns
     ```
 
 - It will deploy `online shop web page` and `online shop without footer web page`, now try to access the web page on browser.
@@ -80,12 +80,6 @@
 
     ```bash
     http://<Your_Instance_Public_Ip>:3000
-    ```
-
-- Now, apply `onlineshop-without-footer-canary-deployment.yaml` with one replica.
-
-    ```bash
-    kubectl apply -f onlineshop-without-footer-canary-deployment.yaml
     ```
 
 - Now, go to `onlineshop-canary-deployment.yaml` and edit replicas field with 3 replicas, so now total we have 4 replicas (`3 with footer` and `1 without footer`)
