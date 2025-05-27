@@ -3,9 +3,10 @@ kind: Deployment
 metadata:
   labels:
     app: canary
-  name: canary-apache
+  name: canary-online-shop
+  namespace: canary-ns
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: canary
@@ -15,9 +16,18 @@ spec:
         app: canary
     spec:
       containers:
-      - image: httpd
-        name: canary-apache
+      - image: amitabhdevops/online_shop
+        name: canary-online-shop
         ports:
           - name: http
             containerPort: 80
             protocol: TCP
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+
+
