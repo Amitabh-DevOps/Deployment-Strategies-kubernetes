@@ -30,6 +30,24 @@
 
 ---
 
+### Prerequisites to try this:
+
+1. EC2 Instance with Ubuntu OS
+
+2. Docker installed & Configured
+
+3. Kind Installed
+
+4. Kubectl Installed
+
+5. Kind Cluster running(Use `kind-config.yml` file present in this directory.)
+
+>   [!NOTE]
+> 
+>   You can create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
+
+---
+
 ### Steps to implement Canary deployment
 
 - Apply the both deployment manifests (`onlineshop-canary-deployment.yaml` and `onlineshop-without-footer-canary-deployment.yaml`) present in the current directory.
