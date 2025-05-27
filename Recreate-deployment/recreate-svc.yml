@@ -5,7 +5,7 @@ metadata:
   namespace: recreate-ns
 spec:
   selector:
-    app: online_shop
+    app: online-shop
   type: NodePort
   ports:
     - protocol: TCP
