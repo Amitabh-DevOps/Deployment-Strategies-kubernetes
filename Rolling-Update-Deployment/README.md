@@ -22,22 +22,66 @@
 
 ---
 
-### Steps to implement Recreate deployment
+### Prerequisites to try this:
 
-- Apply the file present in the current directory with name rolling-update-deployment.yaml
-```bash
-kubectl apply -f rolling-update-deployment.yaml
-```
+1. EC2 Instance with Ubuntu OS
 
-- Open a new tab and run the watch command to monitor the deployment
-```bash
-watch kubectl get pods
-```
+2. Docker installed & Configured
 
-- It will deploy nginx web page, now edit the deployment file and change the image from <b>nginx</b> to <b>httpd</b> and apply.
+3. Kind Installed
 
-```bash
-kubectl apply -f rolling-update-deployment.yaml
-```
+4. Kubectl Installed
+
+5. Kind Cluster running(Use `kind-config.yml` file present in this directory.)
+
+>   [!NOTE]
+> 
+>   You can create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
+
+---
+
+### Steps to implement rolling-update deployment
+
+- Apply all the manifest files present in the current directory.
+
+    ```bash
+    kubectl apply -f .
+    ```
+
+- Run this command to get all resources created in `rolling-ns` namespace.
+
+    ```bash
+    kubectl get all -n rolling-ns
+    ```
+
+- Forward the svc port to the EC2 instance port 3000
+
+    ```bash
+    kubectl port-forward --address 0.0.0.0 svc/rolling-update-service 3000:3000 -n rolling-ns &
+    ```
+
+- Open the inbound rule for port 3000 in that EC2 Instance and check the application at URL:
+
+    ```bash
+    http://<Your_Instance_Public_Ip>:3000
+    ```
+
+- Open a new tab of terminal and connect your EC2 instance and run the watch command to monitor the deployment
+
+    ```bash
+    watch kubectl get pods
+    ```
+
+- You have successfully accessed the online_shop webpage. Now edit the deployment file and change the image from <b>online_shop</b> to <b>online_shop_without_footer</b> and apply.
+
+    ```bash
+    kubectl apply -f . 
+    ```
+
+- or, You can only apply deployment file
+
+    ```bash
+    kubectl apply -f rolling-deployment.yml
+    ```
 
 - Immediately go to second tab where ran watch command and monitor (It will delete all the pods and then create new ones).
