@@ -70,25 +70,25 @@
     kubectl get all -n blue-green-ns
     ```
 
-- Forward the `online-shop-blue-deployment-service` svc Nodeport to the EC2 instance port 3000
-
-    ```bash
-    kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service <NodePort>:3000 -n blue-green-ns &
-    ```
-
-- Forward the `online-shop-green-deployment-service` svc Nodeport to the EC2 instance port 3001
+- Forward the `online-shop-blue-deployment-service` svc Nodeport to the EC2 instance port 3001
 
     ```bash
     kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service <NodePort>:3001 -n blue-green-ns &
     ```
 
-- Open the inbound rule for port 3000 in that EC2 Instance and check the application(Without footer online shop) at URL:
+- Forward the `online-shop-green-deployment-service` svc Nodeport to the EC2 instance port 3000
+
+    ```bash
+    kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service <NodePort>:3000 -n blue-green-ns &
+    ```
+
+- Open the inbound rule for port 3000 in that EC2 Instance and check the application(With footer online shop) at URL:
 
     ```bash
     http://<Your_Instance_Public_Ip>:3000
     ```
 
-- Open the inbound rule for port 3001 in that EC2 Instance and check the application(with footer online shop) at URL:
+- Open the inbound rule for port 3001 in that EC2 Instance and check the application(without footer online shop) at URL:
 
     ```bash
     http://<Your_Instance_Public_Ip>:3001
