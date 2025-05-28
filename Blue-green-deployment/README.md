@@ -21,7 +21,7 @@
 > This deployment strategy is suitable for Production environment.
 
 
-    ![image](https://github.com/user-attachments/assets/ad967289-f554-473b-ba67-4953e57270c2)
+   ![image](https://github.com/user-attachments/assets/ad967289-f554-473b-ba67-4953e57270c2)
 
 ---
 
