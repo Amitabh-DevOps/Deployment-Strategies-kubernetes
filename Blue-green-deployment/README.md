@@ -62,7 +62,7 @@
     watch kubectl get pods -n blue-green-ns
     ```
 
-- It will deploy online shop web page without footer (Blue environment) and online shop web page with footer as a new feature (Green environment), now try to access the blue environment web page on browser.
+- It will deploy `online shop web page without footer` (Blue environment) and `online shop web page with footer` as a new feature (Green environment), now try to access the blue environment web page on browser.
 
 - Run this command to get all resources created in `blue-green-ns` namespace.
 
