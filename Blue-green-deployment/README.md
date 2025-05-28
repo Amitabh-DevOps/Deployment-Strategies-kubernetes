@@ -82,6 +82,9 @@
     http://<Your_Instance_Public_Ip>:30001
     ```
 
+- Without footer online shop app image:
+
+
 ---
 
 - Forward the `online-shop-green-deployment-service` svc Nodeport with the EC2 instance port 3000
@@ -96,16 +99,25 @@
     http://<Your_Instance_Public_Ip>:30000
     ```
 
+- With footer online shop image:
+    
+    ![image](https://github.com/user-attachments/assets/7c73464a-2e4d-4a6a-9b60-207d72d5b66a)
 
-![image](https://github.com/user-attachments/assets/7c73464a-2e4d-4a6a-9b60-207d72d5b66a)
 
-> Note: Check the URL and port carefully 
+>   [!Note]
+>
+>   Check the URL and port carefully 
+
 
 - Now, go to the `online-shop-without-footer-blue-deployment.yaml` manifest file and edit the service's selector field with **`online-shop-green`** selector.
 
-![image](https://github.com/user-attachments/assets/5fa85a34-55b1-458b-ac56-c07b3ec91f06)
+- Previous selector:
 
-![image](https://github.com/user-attachments/assets/9c4732e1-db91-417d-b04f-c46a3fb5d13a)
+    ![image](https://github.com/user-attachments/assets/5fa85a34-55b1-458b-ac56-c07b3ec91f06)
+
+- Current selector:
+
+    ![image](https://github.com/user-attachments/assets/9c4732e1-db91-417d-b04f-c46a3fb5d13a)
 
 - Apply `online-shop-without-footer-blue-deployment.yaml`
 
@@ -132,5 +144,5 @@
 
 - Reload the webpage, you will see `with footer online web page` this time. It means you have successfully switched the traffic from blue environment to the green environment.
 
-![image](https://github.com/user-attachments/assets/8b154fbc-dd68-45da-95d9-c6238e831ebe)
+    ![image](https://github.com/user-attachments/assets/8b154fbc-dd68-45da-95d9-c6238e831ebe)
 
