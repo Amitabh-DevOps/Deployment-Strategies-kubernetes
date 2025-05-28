@@ -3,11 +3,11 @@ kind: Ingress
 metadata:
   name: main-ingress
   namespace: canary-ns
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
-  ingressClassName: nginx
   rules:
-  - host: 54.237.87.116   # Replace with your actual host or IP
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
