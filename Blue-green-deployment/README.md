@@ -146,7 +146,7 @@
     http://<Your_Instance_Public_Ip>:30001
     ```
 
-- Reload the webpage, you will see `with footer online web page` this time. This means you have successfully switched traffic from a blue environment to a green environment.
+- Reload the webpage, you will see `with footer online web page` this time at NodePort 30001. This means you have successfully switched traffic from a blue environment to a green environment.
 
     ![image](https://github.com/user-attachments/assets/7c400f73-adbe-4bc6-b54b-a87035611c2c)
 
