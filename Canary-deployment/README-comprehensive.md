@@ -19,8 +19,22 @@ This approach uses the NGINX Ingress Controller's canary annotations to split tr
 
 #### 1. Install the Ingress Controller
 
+For Kind clusters:
 ```bash
-kubectl apply -f ingress-controller.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/kind/deploy.yaml
+```
+
+For other Kubernetes clusters:
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+```
+
+Wait for the ingress controller to be ready:
+```bash
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=90s
 ```
 
 #### 2. Create the namespace
@@ -36,7 +50,7 @@ kubectl apply -f canary-v1-deployment.yaml  # 4 replicas (stable version)
 kubectl apply -f canary-v2-deployment.yaml  # 1 replica (canary version)
 ```
 
-#### 3. Deploy the combined service that selects both versions
+### 3. Deploy the combined service that selects both versions
 
 ```bash
 kubectl apply -f canary-combined-service.yaml
@@ -63,9 +77,14 @@ kubectl apply -f canary-ingress.yaml
 
 ### Testing the Canary Deployment
 
-Access the application at:
+For Kind clusters, you can access the application at:
 ```
-http://54.237.87.116:30080
+http://localhost:80
+```
+
+For EC2 or other cloud environments, use your instance's public IP:
+```
+http://54.237.87.116:80
 ```
 
 Refresh multiple times - you should see the v1 version (without footer) approximately 80% of the time and the v2 version (with footer) approximately 20% of the time.
@@ -128,14 +147,16 @@ kubectl apply -f canary-combined-service.yaml
 3. Traffic is distributed proportionally to the number of pods for each version:
    - v1 (without footer): 4 pods = ~80% of traffic
    - v2 (with footer): 1 pod = ~20% of traffic
-4. All traffic goes through a single NodePort (30080)
+4. All traffic goes through a single NodePort
 
 ### Testing the Canary Deployment
 
-Access the application at:
+Access the application using the NodePort specified in your canary-combined-service.yaml:
 ```
 http://54.237.87.116:30080
 ```
+
+If port 30080 is already in use, you may need to modify the NodePort in the canary-combined-service.yaml file.
 
 Refresh multiple times - you should see the v1 version (without footer) approximately 80% of the time and the v2 version (with footer) approximately 20% of the time.
 
@@ -171,7 +192,7 @@ kubectl get ingress -n canary-ns  # For Approach 1
 
 ```bash
 kubectl delete namespace canary-ns
-kubectl delete -f ingress-controller.yaml  # For Approach 1
+kubectl delete namespace ingress-nginx  # For Approach 1
 ```
 
 ## Comparing the Approaches
