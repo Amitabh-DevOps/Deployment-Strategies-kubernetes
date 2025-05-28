@@ -100,9 +100,10 @@
     http://<Your_Instance_Public_Ip>:30000
     ```
 
-- With footer online shop image:
+- With the footer online shop image:
     
-    ![image](https://github.com/user-attachments/assets/7c73464a-2e4d-4a6a-9b60-207d72d5b66a)
+    ![image](https://github.com/user-attachments/assets/98b1ea04-4c24-4f3b-ad32-0f2bb24ceee9)
+
 
 
 >   [!Note]
@@ -114,36 +115,39 @@
 
 - Previous selector:
 
-    ![image](https://github.com/user-attachments/assets/5fa85a34-55b1-458b-ac56-c07b3ec91f06)
+    ![image](https://github.com/user-attachments/assets/992edefa-42e8-4a5a-bf9a-8ad15976429d)
+
 
 - Current selector:
 
-    ![image](https://github.com/user-attachments/assets/9c4732e1-db91-417d-b04f-c46a3fb5d13a)
+    ![image](https://github.com/user-attachments/assets/39bb2eda-9125-47eb-8293-5e840171a543)
+
 
 - Apply `online-shop-without-footer-blue-deployment.yaml`
 
     ```bash
     kubectl apply -f online-shop-without-footer-blue-deployment.yaml
     ```
-- Kill all the port-forward using command:
+- Kill all the port-forwarding using the command:
     
     ```bash
     pkill -f "kubectl port-forward"
     ```
 
-- Now again, Forward the `online-shop-blue-deployment-service` svc Nodeport with the EC2 instance port 3001
+- Now again, forward the `online-shop-blue-deployment-service` svc Nodeport with the EC2 instance port 3001
 
     ```bash
     kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service 30001:3001 -n blue-green-ns &
     ```
 
-- Check now, the application is now added a new feature as `with footer online shop`, as it is previously does not have footer but it is now added as a feature, check at URL:
+- Check now, the application has added a new feature as `with footer online shop`, as it previously did not have a footer, but it is now added as a feature, check at URL:
 
     ```bash
     http://<Your_Instance_Public_Ip>:30001
     ```
 
-- Reload the webpage, you will see `with footer online web page` this time. It means you have successfully switched the traffic from blue environment to the green environment.
+- Reload the webpage, you will see `with footer online web page` this time. This means you have successfully switched traffic from a blue environment to a green environment.
 
-    ![image](https://github.com/user-attachments/assets/8b154fbc-dd68-45da-95d9-c6238e831ebe)
+    ![image](https://github.com/user-attachments/assets/73ca010c-eaed-46d0-bd74-120ccdbd99fc)
+
 
