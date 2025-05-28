@@ -79,7 +79,7 @@
 - Forward the `online-shop-green-deployment-service` svc Nodeport to the EC2 instance port 3000
 
     ```bash
-    kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service <NodePort>:3000 -n blue-green-ns &
+    kubectl port-forward --address 0.0.0.0 svc/online-shop-green-deployment-service <NodePort>:3000 -n blue-green-ns &
     ```
 
 - Open the inbound rule for port 3000 in that EC2 Instance and check the application(With footer online shop) at URL:
