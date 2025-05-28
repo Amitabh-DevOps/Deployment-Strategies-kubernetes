@@ -46,7 +46,7 @@
 - Create a namespace first by using:
 
     ```bash
-    kubectl apply -f blue-green-ns
+    kubectl apply -f blue-green-ns.yml
     ```
 
 - Apply the both deployment manifests (`online-shop-without-footer-blue-deployment.yaml` and `online-shop-green-deployment.yaml`) present in the current directory.
