@@ -43,6 +43,12 @@
 
 ### Steps to implement Blue Green deployment
 
+- Create a namespace first by using:
+
+    ```bash
+    kubectl apply -f blue-green-ns
+    ```
+
 - Apply the both deployment manifests (`online-shop-without-footer-blue-deployment.yaml` and `online-shop-green-deployment.yaml`) present in the current directory.
 
     ```bash
@@ -53,7 +59,7 @@
 - Open a new tab of terminal and run the watch command to monitor the deployment
 
     ```bash
-    watch kubectl get pods -n online-shop-blue
+    watch kubectl get pods -n blue-green-ns
     ```
 
 - It will deploy online shop web page without footer (Blue environment) and online shop web page with footer as a new feature (Green environment), now try to access the blue environment web page on browser.
@@ -80,7 +86,7 @@
 
 > Note: Check the URL and port carefully 
 
-- Now, go to the `online-shop-without-footer-blue-deployment.yaml` manifest file and edit the service's selector field with **online-shop-green** selector.
+- Now, go to the `online-shop-without-footer-blue-deployment.yaml` manifest file and edit the service's selector field with **`online-shop-green`** selector.
 
 ![image](https://github.com/user-attachments/assets/5fa85a34-55b1-458b-ac56-c07b3ec91f06)
 
