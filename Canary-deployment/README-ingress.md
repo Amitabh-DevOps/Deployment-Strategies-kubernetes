@@ -60,17 +60,12 @@ kubectl apply -f canary-ingress.yaml
 
 ## Testing the Canary Deployment
 
-1. Add an entry to your hosts file:
-   ```
-   127.0.0.1 onlineshop.local
-   ```
+Access the application using your EC2 instance IP:
+```
+http://54.237.87.116:30080
+```
 
-2. Access the application:
-   ```
-   http://onlineshop.local:30080
-   ```
-
-3. Refresh multiple times - you should see the v1 version (without footer) approximately 80% of the time and the v2 version (with footer) approximately 20% of the time.
+Refresh multiple times - you should see the v1 version (without footer) approximately 80% of the time and the v2 version (with footer) approximately 20% of the time.
 
 ## Adjusting the Canary Weight
 

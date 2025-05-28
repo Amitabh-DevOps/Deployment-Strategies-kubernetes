@@ -9,7 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/canary-weight: "20"
 spec:
   rules:
-  - host: onlineshop.local
+  - host: 54.237.87.116 # Replace with your actual host or IP
     http:
       paths:
       - path: /

@@ -57,6 +57,7 @@ spec:
             - --election-id=ingress-controller-leader
             - --ingress-class=nginx
             - --configmap=ingress-nginx/ingress-nginx-controller
+            - --enable-ssl-passthrough
           securityContext:
             runAsUser: 101
             allowPrivilegeEscalation: true
