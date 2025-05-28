@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: canary
+    track: stable
   name: canary-nginx
 spec:
   replicas: 3
@@ -13,10 +14,15 @@ spec:
     metadata:
       labels:
         app: canary
+        track: stable
     spec:
       containers:
       - image: nginx
         name: canary-nginx
+        ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
 ---
 apiVersion: v1
 kind: Service
@@ -29,3 +35,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
+      targetPort: 80
+      nodePort: 30080

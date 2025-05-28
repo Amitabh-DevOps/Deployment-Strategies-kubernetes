@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: canary
+    track: canary
   name: canary-apache
 spec:
   replicas: 1
@@ -13,6 +14,7 @@ spec:
     metadata:
       labels:
         app: canary
+        track: canary
     spec:
       containers:
       - image: httpd
