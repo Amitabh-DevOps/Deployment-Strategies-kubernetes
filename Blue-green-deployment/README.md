@@ -85,6 +85,7 @@
 
 - Without footer online shop app image:
 
+    ![image](https://github.com/user-attachments/assets/d68fda9e-2e18-4086-b64b-a372c3b6dd01)
 
 ---
 
@@ -102,8 +103,7 @@
 
 - With the footer online shop image:
     
-    ![image](https://github.com/user-attachments/assets/98b1ea04-4c24-4f3b-ad32-0f2bb24ceee9)
-
+    ![image](https://github.com/user-attachments/assets/03409f86-c206-4255-b04b-3d8c9d3741a9)
 
 
 >   [!Note]
@@ -148,6 +148,7 @@
 
 - Reload the webpage, you will see `with footer online web page` this time. This means you have successfully switched traffic from a blue environment to a green environment.
 
-    ![image](https://github.com/user-attachments/assets/73ca010c-eaed-46d0-bd74-120ccdbd99fc)
+    ![image](https://github.com/user-attachments/assets/7c400f73-adbe-4bc6-b54b-a87035611c2c)
+
 
 
