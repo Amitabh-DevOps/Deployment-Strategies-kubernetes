@@ -1,6 +1,6 @@
 # Canary Deployment with Ingress in Kubernetes
 
-This guide explains how to implement a canary deployment strategy using Kubernetes Ingress in a Kind cluster running on an EC2 instance.
+This guide explains how to implement a canary deployment strategy using Kubernetes Ingress in a Kind cluster.
 
 ## What is Canary Deployment?
 
@@ -8,9 +8,8 @@ Canary deployment is a strategy where a new version of an application is gradual
 
 ## Prerequisites
 
-- Kind cluster running on EC2
+- Kind cluster running
 - kubectl installed
-- EC2 instance with public IP (54.85.89.218 in this example)
 
 ## Setup Steps
 
@@ -78,26 +77,23 @@ kubectl apply -f canary-ingress.yaml
 2. The canary ingress has annotations that tell the ingress controller to route a percentage of traffic to v2:
    - `nginx.ingress.kubernetes.io/canary: "true"` - Marks this ingress as a canary
    - `nginx.ingress.kubernetes.io/canary-weight: "20"` - Routes 20% of traffic to v2
+   - `nginx.ingress.kubernetes.io/canary-by-header: "X-Canary"` - Routes traffic with header "X-Canary: always" to v2
 3. Both ingress resources use `ingressClassName: nginx` to specify which controller should handle them
-4. We use nip.io domain (54.85.89.218.nip.io) to map our EC2 IP to a hostname that can be used in the Ingress rules
+4. The configuration-snippet annotation ensures proper MIME types for JavaScript, CSS, and other static files
 
 ## Testing the Canary Deployment
 
-### 1. Ensure your EC2 security group allows inbound traffic on port 80
+### 1. Port-forward the ingress controller service
 
-Make sure your EC2 instance's security group allows inbound traffic on port 80 (HTTP).
-
-### 2. Port-forward the ingress controller service to expose it
-
-```
-kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
+```bash
+kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80 --address 0.0.0.0
 ```
 
-### 3. Access the application
+### 2. Access the application
 
 Open your browser or use curl to access:
 ```
-http://54.85.89.218:8080
+http://YOUR_EC2_IP:8080
 ```
 
 Refresh multiple times - you should see:
@@ -111,7 +107,7 @@ To verify the traffic distribution:
 ```bash
 for i in {1..20}; do 
   echo -n "Request $i: "
-  if curl -s http://54.85.89.218.nip.io | grep -q "footer"; then 
+  if curl -s http://YOUR_EC2_IP:8080 | grep -q "footer"; then 
     echo "Version 2 (with footer)"
   else 
     echo "Version 1 (without footer)"
@@ -119,6 +115,16 @@ for i in {1..20}; do
   sleep 0.5
 done
 ```
+
+### 4. Force traffic to the canary version
+
+You can force traffic to the canary version using the X-Canary header:
+
+```bash
+curl -H "X-Canary: always" http://YOUR_EC2_IP:8080
+```
+
+This should always show the version with footer.
 
 ## Adjusting the Canary Weight
 
@@ -128,6 +134,12 @@ To change the percentage of traffic going to the canary version:
 2. Apply the updated ingress:
    ```bash
    kubectl apply -f canary-ingress.yaml
+   ```
+
+Or use kubectl patch:
+   ```bash
+   kubectl patch ingress canary-ingress -n canary-ns --type=json \
+     -p='[{"op": "replace", "path": "/metadata/annotations/nginx.ingress.kubernetes.io~1canary-weight", "value": "50"}]'
    ```
 
 ## Gradual Rollout Example
@@ -176,16 +188,6 @@ kubectl get ingress -n canary-ns
 kubectl logs -n ingress-nginx deployment/ingress-nginx-controller
 ```
 
-## Cleanup
-
-```bash
-# Delete the canary namespace (removes all resources in it)
-kubectl delete namespace canary-ns
-
-# Delete the ingress-nginx namespace
-kubectl delete namespace ingress-nginx
-```
-
 ## Troubleshooting
 
 ### Ingress controller pod stuck in Pending state
@@ -218,8 +220,32 @@ If you cannot access the application after setting up everything:
 
 4. Try port-forwarding directly to one of the services to verify they're working:
    ```bash
-   kubectl port-forward -n canary-ns service/online-shop-v1 8081:80
-   kubectl port-forward -n canary-ns service/online-shop-v2 8082:80
+   kubectl port-forward -n canary-ns service/online-shop-v1 8081:80 --address 0.0.0.0
+   kubectl port-forward -n canary-ns service/online-shop-v2 8082:80 --address 0.0.0.0
    ```
 
-5. Make sure your EC2 security group allows inbound traffic on port 80
+### MIME type errors in browser console
+
+If you see errors related to MIME types in the browser console, make sure the configuration-snippet annotation is correctly applied to both ingress resources.
+
+### Testing with curl and headers
+
+To test the header-based canary routing:
+
+```bash
+# Force traffic to canary version
+curl -H "X-Canary: always" http://YOUR_EC2_IP:8080
+
+# Force traffic to stable version
+curl -H "X-Canary: never" http://YOUR_EC2_IP:8080
+```
+
+## Cleanup
+
+```bash
+# Delete the canary namespace (removes all resources in it)
+kubectl delete namespace canary-ns
+
+# Delete the ingress-nginx namespace
+kubectl delete namespace ingress-nginx
+```

@@ -3,6 +3,17 @@ kind: Ingress
 metadata:
   name: main-ingress
   namespace: canary-ns
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      location ~* \.(js|css|svg|ico)$ {
+        types {
+          application/javascript js;
+          text/css css;
+          image/svg+xml svg;
+          image/x-icon ico;
+        }
+        add_header Cache-Control "public, max-age=31536000, immutable";
+      }
 spec:
   ingressClassName: nginx
   rules:
