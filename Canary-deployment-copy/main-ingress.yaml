@@ -6,6 +6,11 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~* \.(js|mjs)$ {
+        types { application/javascript js mjs; }
+        default_type application/javascript;
+      }
 spec:
   ingressClassName: nginx
   rules:
