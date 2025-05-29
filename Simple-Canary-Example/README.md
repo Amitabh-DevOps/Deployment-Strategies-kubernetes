@@ -10,10 +10,23 @@ In this example:
 - Both deployments are selected by the same service using the common label `app: web`
 - Traffic is distributed proportionally to the number of pods
 
-## Prerequisites
+### Prerequisites to try this:
 
-- Kubernetes cluster (Kind, Minikube, or any other)
-- kubectl installed and configured
+1. EC2 Instance with Ubuntu OS
+
+2. Docker installed & Configured
+
+3. Kind Installed
+
+4. Kubectl Installed
+
+5. Kind Cluster running(Use `kind-config.yml` file present in this directory.)
+
+>   [!NOTE]
+> 
+>   You can create Kind Cluster using command: `kind create cluster --config kind-config.yml --name dep-strg`
+
+---
 
 ## Files
 
