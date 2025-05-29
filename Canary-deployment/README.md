@@ -48,51 +48,159 @@
 
 ---
 
-### Steps to implement Canary deployment
+## Setup Steps
 
-- Apply the both deployment manifests (`onlineshop-canary-deployment.yaml` and `onlineshop-without-footer-canary-deployment.yaml`) present in the current directory.
+### Install the Ingress Controller for Kind
+
+```bash
+# Apply the ingress controller manifest
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/kind/deploy.yaml
+
+# Wait for the ingress controller to be ready
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
+```
+
+If the ingress controller pod remains in Pending state due to node selector issues, remove the node selector:
+
+```bash
+kubectl patch deployment ingress-nginx-controller -n ingress-nginx --type=json \
+  -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector"}]'
+```
+
+### 1. Create the namespace
+
+```bash
+kubectl apply -f canary-namespace.yml
+```
+
+### 2. Deploy both versions with different replica counts
+
+```bash
+# Deploy v1 (stable version - without footer)
+kubectl apply -f canary-v1-deployment.yaml  # 4 replicas (80% of traffic)
+
+# Deploy v2 (canary version - with footer)
+kubectl apply -f canary-v2-deployment.yaml  # 1 replica (20% of traffic)
+```
+
+### 3. Create the combined service that selects both versions
+
+```bash
+kubectl apply -f canary-combined-service.yaml
+```
+
+### 4. (Optional) Create the ingress for external access
+
+```bash
+kubectl apply -f ingress.yaml
+```
+
+## How it works
+
+1. Both deployments use the same app label (`app: online-shop`) but different version labels
+2. The service selects pods based only on the app label, not the version
+3. Traffic is distributed proportionally to the number of pods for each version:
+   - v1 (without footer): 4 pods = ~80% of traffic
+   - v2 (with footer): 1 pod = ~20% of traffic
+
+## Testing the Canary Deployment
+
+### 1 Using ingress
+
+If you've set up the ingress controller:
+
+```bash
+kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
+```
+
+Then access http://<Instance_Ip>:8080 multiple times. You should see:
+- The v1 version (without footer) approximately 80% of the time
+- The v2 version (with footer) approximately 20% of the time
+
+
+## Adjusting the Traffic Split
+
+To change the percentage of traffic going to each version, adjust the number of replicas:
+
+```bash
+# Increase canary traffic to ~40% (3:2 ratio)
+kubectl scale deployment online-shop-v1 -n canary-ns --replicas=3
+kubectl scale deployment online-shop-v2 -n canary-ns --replicas=2
+
+# Increase canary traffic to ~60% (2:3 ratio)
+kubectl scale deployment online-shop-v1 -n canary-ns --replicas=2
+kubectl scale deployment online-shop-v2 -n canary-ns --replicas=3
+
+# Complete migration to v2 (0:5 ratio)
+kubectl scale deployment online-shop-v1 -n canary-ns --replicas=0
+kubectl scale deployment online-shop-v2 -n canary-ns --replicas=5
+```
+
+## Monitoring
+
+Monitor your deployments during the canary process:
+
+```bash
+# Check pods
+kubectl get pods -n canary-ns
+
+# Check the distribution of pods
+kubectl get pods -n canary-ns --show-labels
+
+# Check the service
+kubectl describe svc online-shop-service -n canary-ns
+
+```
+
+- Open a new tab of terminal, connnect EC2 instance and run the watch command to monitor the deployment
 
     ```bash
-    kubectl apply -f onlineshop-canary-deployment.yaml
+    watch kubectl get pods -n canary-ns
     ```
 
-- Open a new tab of terminal and run the watch command to monitor the deployment
+## Cleanup
 
-    ```bash
-    watch kubectl get pods
-    ```
+```bash
+kubectl delete namespace canary-ns
+```
 
-- It will deploy `online shop web page` and `online shop without footer web page`, now try to access the web page on browser.
+## Advantages of Pod-Based Canary Deployment
 
-- Run this command to get all resources created in `canary-ns` namespace.
+1. **Simplicity**: No complex annotations or configurations needed
+2. **Reliability**: Works consistently across different Kubernetes environments
+3. **Visibility**: Easy to understand and visualize the traffic distribution
+4. **Compatibility**: Works with any application without special requirements
+5. **No MIME type issues**: Avoids problems with static assets and content types
 
-    ```bash
-    kubectl get all -n canary-ns
-    ```
+## Comparison with Ingress-Based Canary
 
-- Forward the svc port to the EC2 instance port 3000
+| Feature | Pod-Based Canary | Ingress-Based Canary |
+|---------|-----------------|---------------------|
+| **Complexity** | Low | High |
+| **Precision** | Based on pod count | Percentage-based |
+| **Requirements** | Standard Kubernetes | Ingress controller with canary support |
+| **Configuration** | Simple | Complex annotations |
+| **Reliability** | High | Can have issues with static assets |
+| **Resource Usage** | Efficient | Similar |
+| **Header/Cookie Routing** | Not supported | Supported |
+| **Implementation** | Single service, multiple deployments | Multiple services, ingress rules |
 
-    ```bash
-    kubectl port-forward --address 0.0.0.0 svc/canary-deployment-service 3000:3000 -n canary-ns &
-    ```
 
-- Open the inbound rule for port 3000 in that EC2 Instance and check the application at URL:
+---
 
-    ```bash
-    http://<Your_Instance_Public_Ip>:3000
-    ```
-
-- Now, apply `onlineshop-without-footer-canary-deployment.yaml` with one replica.
-
-    ```bash
-    kubectl apply -f onlineshop-without-footer-canary-deployment.yaml
-    ```
-
-- Now, go to `onlineshop-canary-deployment.yaml` and edit replicas field with 3 replicas, so now total we have 4 replicas (`3 with footer` and `1 without footer`)
- 
-- Now try to access the web page on browser and refresh repeatedly untill you see online shop without footer web page.
-
-    ```bash
-    http://<Your_Instance_Public_Ip>:3000
-    ```
-
+> [!Note]
+>
+> If you cannot access the web app after the update, check your terminal — you probably encountered an error like:
+>
+>   ```bash
+>   error: lost connection to pod
+>   ```
+>
+> Don’t worry! This happens because we’re running the cluster locally (e.g., with **Kind**), and the `kubectl port-forward` session breaks when the underlying pod is replaced during deployment (especially with `Recreate` strategy).
+>
+> 🔁 Just run the `kubectl port-forward` command again to re-establish the connection and access the app in your browser.
+>
+> ✅ This issue won't occur when deploying on managed Kubernetes services like **AWS EKS**, **GKE**, or **AKS**, because in those environments you usually expose services using `NodePort`, `LoadBalancer`, or Ingress — not `kubectl port-forward`.

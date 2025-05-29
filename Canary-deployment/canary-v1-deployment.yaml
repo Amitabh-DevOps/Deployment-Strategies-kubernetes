@@ -1,23 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: canary
-  name: canary-online-shop
+  name: online-shop-v1
   namespace: canary-ns
+  labels:
+    app: online-shop
+    version: v1
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: canary
+      app: online-shop
+      version: v1
   template:
     metadata:
       labels:
-        app: canary
+        app: online-shop
+        version: v1
     spec:
       containers:
-      - image: amitabhdevops/online_shop
-        name: canary-online-shop
+      - name: online-shop
+        image: amitabhdevops/online_shop_without_footer
+        ports:
+        - containerPort: 3000
         resources:
           limits:
             cpu: "500m"
@@ -25,5 +30,3 @@ spec:
           requests:
             cpu: "200m"
             memory: "256Mi"
-
-
