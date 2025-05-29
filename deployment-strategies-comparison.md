@@ -117,6 +117,23 @@ This document provides a comprehensive comparison of the four deployment strateg
 - Production environments with diverse user base
 - When maximum caution is required
 
+## Deployment Strategies Used by Major Tech Companies
+
+| Company | Primary Strategies | Notable Implementation Details |
+|---------|-------------------|-------------------------------|
+| **Google** | Canary, Rolling | Uses Canary for most services; pioneered gradual rollouts with traffic splitting |
+| **Amazon/AWS** | Blue/Green, Canary | AWS CodeDeploy supports both; uses Blue/Green for many critical services |
+| **Microsoft** | Rolling, Canary | Azure DevOps uses progressive exposure patterns; GitHub uses Canary deployments |
+| **Facebook** | Canary, Dark Launches | Uses sophisticated feature flagging with incremental rollouts |
+| **Netflix** | Red/Black (Blue/Green), Canary | Custom "Red/Black" deployment with regional progressive rollouts |
+| **Uber** | Rolling, Canary | Uses custom traffic shifting with automated verification |
+| **Airbnb** | Incremental Canary | Custom implementation with automated verification and rollback |
+| **Etsy** | Continuous Deployment, Dark Launches | Feature flags with incremental exposure |
+| **LinkedIn** | Canary, Dark Launches | Uses custom traffic control system called "LiX" |
+| **Spotify** | Progressive Delivery (Canary) | Uses custom tooling for gradual rollouts |
+
+Most large tech companies have developed custom deployment platforms that combine elements of multiple strategies, often with sophisticated monitoring, automated verification, and rollback capabilities. The trend is toward progressive delivery approaches (variants of Canary) with automated verification steps.
+
 ## Choosing the Right Strategy
 
 The choice of deployment strategy depends on several factors:
