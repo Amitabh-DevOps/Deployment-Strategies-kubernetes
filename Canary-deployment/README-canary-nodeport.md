@@ -45,7 +45,7 @@ kubectl apply -f canary-combined-service.yaml
 
 Access the application at:
 ```
-http://54.237.87.116:30080
+http://54.85.89.218:30080
 ```
 
 Refresh multiple times - you should see:

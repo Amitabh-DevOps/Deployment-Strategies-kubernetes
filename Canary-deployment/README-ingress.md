@@ -62,7 +62,7 @@ kubectl apply -f canary-ingress.yaml
 
 Access the application using your EC2 instance IP:
 ```
-http://54.237.87.116:30080
+http://54.85.89.218:30080
 ```
 
 Refresh multiple times - you should see the v1 version (without footer) approximately 80% of the time and the v2 version (with footer) approximately 20% of the time.

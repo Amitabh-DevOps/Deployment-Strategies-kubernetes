@@ -10,7 +10,7 @@ Canary deployment is a strategy where a new version of an application is gradual
 
 - Kind cluster running on EC2
 - kubectl installed
-- EC2 instance with public IP (54.237.87.116 in this example)
+- EC2 instance with public IP (54.85.89.218 in this example)
 
 ## Setup Steps
 
@@ -79,7 +79,7 @@ kubectl apply -f canary-ingress.yaml
    - `nginx.ingress.kubernetes.io/canary: "true"` - Marks this ingress as a canary
    - `nginx.ingress.kubernetes.io/canary-weight: "20"` - Routes 20% of traffic to v2
 3. Both ingress resources use `ingressClassName: nginx` to specify which controller should handle them
-4. We use nip.io domain (54.237.87.116.nip.io) to map our EC2 IP to a hostname that can be used in the Ingress rules
+4. We use nip.io domain (54.85.89.218.nip.io) to map our EC2 IP to a hostname that can be used in the Ingress rules
 
 ## Testing the Canary Deployment
 
@@ -97,7 +97,7 @@ kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 80:80 --a
 
 Open your browser or use curl to access:
 ```
-http://54.237.87.116.nip.io
+http://54.85.89.218.nip.io
 ```
 
 Refresh multiple times - you should see:
@@ -111,7 +111,7 @@ To verify the traffic distribution:
 ```bash
 for i in {1..20}; do 
   echo -n "Request $i: "
-  if curl -s http://54.237.87.116.nip.io | grep -q "footer"; then 
+  if curl -s http://54.85.89.218.nip.io | grep -q "footer"; then 
     echo "Version 2 (with footer)"
   else 
     echo "Version 1 (without footer)"

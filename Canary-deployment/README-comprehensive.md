@@ -84,7 +84,7 @@ http://localhost:80
 
 For EC2 or other cloud environments, use your instance's public IP:
 ```
-http://54.237.87.116:80
+http://54.85.89.218:80
 ```
 
 Refresh multiple times - you should see the v1 version (without footer) approximately 80% of the time and the v2 version (with footer) approximately 20% of the time.
@@ -153,7 +153,7 @@ kubectl apply -f canary-combined-service.yaml
 
 Access the application using the NodePort specified in your canary-combined-service.yaml:
 ```
-http://54.237.87.116:30080
+http://54.85.89.218:30080
 ```
 
 If port 30080 is already in use, you may need to modify the NodePort in the canary-combined-service.yaml file.

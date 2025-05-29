@@ -38,20 +38,20 @@ kubectl apply -f service-v2.yaml
 1. The stable version (v1) is deployed with 4 replicas and exposed on NodePort 30081
 2. The canary version (v2) is deployed with 1 replica and exposed on NodePort 30082
 3. Users can access:
-   - Stable version (v1): http://54.237.87.116:30081
-   - Canary version (v2): http://54.237.87.116:30082
+   - Stable version (v1): http://54.85.89.218:30081
+   - Canary version (v2): http://54.85.89.218:30082
 
 ## Testing the Canary Deployment
 
 1. Access the stable version:
    ```
-   http://54.237.87.116:30081
+   http://54.85.89.218:30081
    ```
    You should see the version without footer.
 
 2. Access the canary version:
    ```
-   http://54.237.87.116:30082
+   http://54.85.89.218:30082
    ```
    You should see the version with footer.
 
