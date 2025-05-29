@@ -156,3 +156,17 @@ Each strategy can be implemented in Kubernetes using different approaches:
 - **Canary**: Use Ingress controllers with traffic splitting or multiple Deployments with label selectors
 
 This repository contains practical examples of each strategy that you can use as a reference for your own implementations.
+
+
+---
+
+### Key Citations
+- [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [Spacelift Kubernetes Deployment Strategies](https://spacelift.io/blog/kubernetes-deployment-strategies)
+- [Spot.io 8 Kubernetes Deployment Strategies](https://spot.io/resources/kubernetes-autoscaling/8-kubernetes-deployment-strategies/)
+- [Codefresh Top 6 Kubernetes Deployment Strategies](https://codefresh.io/learn/kubernetes-deployment/top-6-kubernetes-deployment-strategies-and-how-to-choose/)
+- [Zeet.co Kubernetes Deployment Strategy Types](https://zeet.co/blog/kubernetes-deployment-strategy-types)
+- [Google Cloud Blog Release Canaries](https://cloud.google.com/blog/products/gcp/how-release-canaries-can-save-your-bacon-cre-life-lessons)
+- [AWS Deployment Strategies](https://docs.aws.amazon.com/whitepapers/latest/introduction-devops-aws/deployment-strategies.html)
+- [InfoQ How Netflix Deploys Code](https://www.infoq.com/news/2013/06/netflix/)
+- [The ITAM Review Netflix Deployment](https://itassetmanagement.net/2019/04/23/how-netflix-over-deployed-10000-instances-in-amazon-aws/)
