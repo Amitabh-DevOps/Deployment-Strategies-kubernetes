@@ -3,15 +3,6 @@ kind: Ingress
 metadata:
   name: main-ingress
   namespace: canary-ns
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      location ~* \.(js|css|svg|ico|png|jpg|jpeg|gif|woff|woff2|ttf|eot)$ {
-        add_header Cache-Control "public, max-age=31536000, immutable";
-        proxy_pass http://upstream_balancer;
-        proxy_redirect off;
-      }
-
 spec:
   ingressClassName: nginx
   rules:
