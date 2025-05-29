@@ -27,6 +27,26 @@ In this example:
 
 ## Setup Instructions
 
+### Install the Ingress Controller for Kind
+
+```bash
+# Apply the ingress controller manifest
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/kind/deploy.yaml
+
+# Wait for the ingress controller to be ready
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
+```
+
+If the ingress controller pod remains in Pending state due to node selector issues, remove the node selector:
+
+```bash
+kubectl patch deployment ingress-nginx-controller -n ingress-nginx --type=json \
+  -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector"}]'
+```
+
 1. Create the namespace:
    ```bash
    kubectl apply -f namespace.yaml
@@ -56,39 +76,19 @@ In this example:
 
 ## Testing the Canary Deployment
 
-### Option 1: Using port-forward
-
-```bash
-kubectl port-forward -n simple-canary svc/web-service 8080:80
-```
-
 Then access http://localhost:8080 multiple times. You should see:
 - NGINX (Version 1) approximately 80% of the time
 - Apache (Version 2) approximately 20% of the time
 
-### Option 2: Using ingress
+### 1: Using ingress
 
 If you've set up the ingress controller:
 
 ```bash
-kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80
+kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
 ```
 
-Then access http://localhost:8080 multiple times.
-
-### Option 3: Using curl in a loop
-
-```bash
-for i in {1..20}; do 
-  echo -n "Request $i: "
-  if curl -s http://localhost:8080 | grep -q "Version 2"; then 
-    echo "Apache (Canary)"
-  else 
-    echo "NGINX (Stable)"
-  fi
-  sleep 0.5
-done
-```
+Then access http://<Instance_Ip>:8080 multiple times.
 
 ## Adjusting the Traffic Split
 
