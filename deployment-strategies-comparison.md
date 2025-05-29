@@ -21,6 +21,9 @@ This document provides a comprehensive comparison of the four deployment strateg
 | **Production Readiness** | Not recommended | Good | Very Good | Excellent |
 | **Gradual Rollout** | No | Yes | No (all at once after validation) | Yes (highly controlled) |
 
+
+---
+
 ## Detailed Comparison
 
 ### Recreate Strategy
@@ -45,6 +48,8 @@ This document provides a comprehensive comparison of the four deployment strateg
 - Non-critical applications
 - When clean state is required
 
+---
+
 ### Rolling Update Strategy
 
 **How it works:**
@@ -67,6 +72,8 @@ This document provides a comprehensive comparison of the four deployment strateg
 - Most production workloads
 - Applications with backward compatible changes
 - When simplicity is valued
+
+---
 
 ### Blue/Green Deployment
 
@@ -91,6 +98,8 @@ This document provides a comprehensive comparison of the four deployment strateg
 - Major version changes
 - When thorough testing is required before exposure
 - When fast rollback capability is essential
+
+---
 
 ### Canary Deployment
 
@@ -117,6 +126,8 @@ This document provides a comprehensive comparison of the four deployment strateg
 - Production environments with diverse user base
 - When maximum caution is required
 
+---
+
 ## Deployment Strategies Used by Major Tech Companies
 
 | Company | Primary Strategies | Notable Implementation Details |
@@ -134,6 +145,8 @@ This document provides a comprehensive comparison of the four deployment strateg
 
 Most large tech companies have developed custom deployment platforms that combine elements of multiple strategies, often with sophisticated monitoring, automated verification, and rollback capabilities. The trend is toward progressive delivery approaches (variants of Canary) with automated verification steps.
 
+---
+
 ## Choosing the Right Strategy
 
 The choice of deployment strategy depends on several factors:
@@ -145,6 +158,8 @@ The choice of deployment strategy depends on several factors:
 5. **Release Frequency**: How often do you deploy?
 
 For most production applications, Rolling Update provides a good balance of simplicity and availability. For critical applications or major changes, Blue/Green or Canary deployments offer additional safety at the cost of complexity and resources.
+
+---
 
 ## Implementation in Kubernetes
 
