@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: online-shop-canary
+  name: online-shop-service
   namespace: canary-ns
 spec:
   selector:
@@ -9,5 +9,4 @@ spec:
   ports:
   - port: 80
     targetPort: 3000
-    nodePort: 30080
-  type: NodePort
+  type: ClusterIP
