@@ -137,3 +137,19 @@ This approach works because:
 - Traffic distribution depends on pod availability and readiness
 - No header-based or cookie-based routing
 - No advanced traffic shaping capabilities
+
+---
+
+> [!Note]
+>
+> If you cannot access the web app after the update, check your terminal — you probably encountered an error like:
+>
+>   ```bash
+>   error: lost connection to pod
+>   ```
+>
+> Don’t worry! This happens because we’re running the cluster locally (e.g., with **Kind**), and the `kubectl port-forward` session breaks when the underlying pod is replaced during deployment (especially with `Recreate` strategy).
+>
+> 🔁 Just run the `kubectl port-forward` command again to re-establish the connection and access the app in your browser.
+>
+> ✅ This issue won't occur when deploying on managed Kubernetes services like **AWS EKS**, **GKE**, or **AKS**, because in those environments you usually expose services using `NodePort`, `LoadBalancer`, or Ingress — not `kubectl port-forward`.
