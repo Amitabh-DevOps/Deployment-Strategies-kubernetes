@@ -6,10 +6,10 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/server-snippet: |
-      location ~* \.(js|mjs)$ {
-        types { application/javascript js mjs; }
-        default_type application/javascript;
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      location /assets/ {
+        proxy_pass http://upstream_balancer/assets/;
+        proxy_redirect off;
       }
 spec:
   ingressClassName: nginx
