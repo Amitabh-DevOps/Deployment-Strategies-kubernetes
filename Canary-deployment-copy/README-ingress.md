@@ -90,14 +90,14 @@ Make sure your EC2 instance's security group allows inbound traffic on port 80 (
 ### 2. Port-forward the ingress controller service to expose it
 
 ```
-kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 80:80 --address 0.0.0.0
+kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
 ```
 
 ### 3. Access the application
 
 Open your browser or use curl to access:
 ```
-http://54.85.89.218.nip.io
+http://54.85.89.218:8080
 ```
 
 Refresh multiple times - you should see:
