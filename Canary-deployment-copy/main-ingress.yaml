@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: main-ingress
   namespace: canary-ns
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   rules:
