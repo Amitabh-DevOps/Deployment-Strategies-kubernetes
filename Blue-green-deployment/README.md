@@ -165,3 +165,4 @@
 > 🔁 Just run the `kubectl port-forward` command again to re-establish the connection and access the app in your browser.
 >
 > ✅ This issue won't occur when deploying on managed Kubernetes services like **AWS EKS**, **GKE**, or **AKS**, because in those environments you usually expose services using `NodePort`, `LoadBalancer`, or Ingress — not `kubectl port-forward`.
+
