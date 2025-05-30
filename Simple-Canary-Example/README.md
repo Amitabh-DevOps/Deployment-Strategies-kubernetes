@@ -40,25 +40,25 @@ In this example:
 
 ## Setup Instructions
 
-### Install the Ingress Controller for Kind
+- Install the Ingress Controller for Kind
 
-```bash
-# Apply the ingress controller manifest
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/kind/deploy.yaml
+   ```bash
+   # Apply the ingress controller manifest
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/kind/deploy.yaml
 
-# Wait for the ingress controller to be ready
-kubectl wait --namespace ingress-nginx \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=controller \
-  --timeout=120s
-```
+   # Wait for the ingress controller to be ready
+   kubectl wait --namespace ingress-nginx \
+   --for=condition=ready pod \
+   --selector=app.kubernetes.io/component=controller \
+   --timeout=120s
+   ```
 
-If the ingress controller pod remains in Pending state due to node selector issues, remove the node selector:
+- If the ingress controller pod remains in Pending state due to node selector issues, remove the node selector:
 
-```bash
-kubectl patch deployment ingress-nginx-controller -n ingress-nginx --type=json \
-  -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector"}]'
-```
+   ```bash
+   kubectl patch deployment ingress-nginx-controller -n ingress-nginx --type=json \
+   -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector"}]'
+   ```
 
 1. Create the namespace:
    ```bash
@@ -95,37 +95,39 @@ Then access http://localhost:8080 multiple times. You should see:
 
 ### 1: Using ingress
 
-If you've set up the ingress controller:
+- Using the ingress controller:
 
-```bash
-kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
-```
+   ```bash
+   kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
+   ```
 
 Then access http://<Instance_Ip>:8080 multiple times.
 
 ## Adjusting the Traffic Split
 
-To change the percentage of traffic going to each version, adjust the number of replicas:
+- To change the percentage of traffic going to each version, adjust the number of replicas:
 
-```bash
-# Increase canary traffic to ~40% (3:2 ratio)
-kubectl scale deployment nginx-deployment -n simple-canary --replicas=3
-kubectl scale deployment apache-deployment -n simple-canary --replicas=2
+   ```bash
+   # Increase canary traffic to ~40% (3:2 ratio)
+   kubectl scale deployment nginx-deployment -n simple-canary --replicas=3
+   kubectl scale deployment apache-deployment -n simple-canary --replicas=2
 
-# Increase canary traffic to ~60% (2:3 ratio)
-kubectl scale deployment nginx-deployment -n simple-canary --replicas=2
-kubectl scale deployment apache-deployment -n simple-canary --replicas=3
+   # Increase canary traffic to ~60% (2:3 ratio)
+   kubectl scale deployment nginx-deployment -n simple-canary --replicas=2
+   kubectl scale deployment apache-deployment -n simple-canary --replicas=3
 
-# Complete migration to canary version (0:5 ratio)
-kubectl scale deployment nginx-deployment -n simple-canary --replicas=0
-kubectl scale deployment apache-deployment -n simple-canary --replicas=5
-```
+   # Complete migration to canary version (0:5 ratio)
+   kubectl scale deployment nginx-deployment -n simple-canary --replicas=0
+   kubectl scale deployment apache-deployment -n simple-canary --replicas=5
+   ```
 
 ## Cleanup
 
-```bash
-kubectl delete namespace simple-canary
-```
+- Deleting Kind Cluster:
+
+    ```bash
+    kind deleter cluster --name dep-strg
+    ```
 
 ## Why This Approach Works
 
