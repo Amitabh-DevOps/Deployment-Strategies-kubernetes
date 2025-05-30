@@ -88,6 +88,16 @@
 
 ---
 
+## Cleanup
+
+- Deleting Kind Cluster:
+
+    ```bash
+    kind delete cluster --name dep-strg
+    ```
+
+---
+
 > [!Note]
 >
 > If you cannot access the web app after the update, check your terminal — you probably encountered an error like:
