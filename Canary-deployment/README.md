@@ -171,7 +171,7 @@ Then access `http://<Instance_Ip>:8080` multiple times. You should see:
 - Deleting Kind Cluster:
 
     ```bash
-    kind deleter cluster --name dep-strg
+    kind delete cluster --name dep-strg
     ```
 
 ---
