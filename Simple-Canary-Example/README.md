@@ -106,7 +106,7 @@ In this example:
    kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
    ```
 
-Then access http://<Instance_Ip>:8080 multiple times, You should see:
+Then access `http://<Instance_Ip>:8080` multiple times, You should see:
 
    - NGINX (Version 1) approximately 80% of the time
    - Apache (Version 2) approximately 20% of the time
