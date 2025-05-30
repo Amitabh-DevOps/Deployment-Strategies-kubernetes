@@ -120,7 +120,7 @@
     kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
     ```
 
-Then access http://<Instance_Ip>:8080 multiple times. You should see:
+Then access `http://<Instance_Ip>:8080` multiple times. You should see:
 - The v1 version (without footer) approximately 80% of the time
 - The v2 version (with footer) approximately 20% of the time
 
@@ -166,10 +166,10 @@ Then access http://<Instance_Ip>:8080 multiple times. You should see:
 
 ## Cleanup
 
-- deleteting namespace:
+- Deleting Kind Cluster:
 
     ```bash
-    kubectl delete namespace canary-ns
+    kind deleter cluster --name dep-strg
     ```
 
 ## Advantages of Pod-Based Canary Deployment
