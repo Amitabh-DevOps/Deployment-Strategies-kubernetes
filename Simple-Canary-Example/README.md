@@ -68,7 +68,7 @@ In this example:
 
   ![Screenshot 2025-05-30 122314](https://github.com/user-attachments/assets/d33a623f-5070-48fb-8ae5-ca12bf46d84e)
 
-  
+
 1. Create the namespace:
    ```bash
    kubectl apply -f namespace.yaml
@@ -91,16 +91,12 @@ In this example:
    kubectl apply -f canary-service.yaml
    ```
 
-5. (Optional) Create the ingress:
+5. Create the ingress:
    ```bash
    kubectl apply -f ingress.yaml
    ```
 
 ## Testing the Canary Deployment
-
-Then access http://localhost:8080 multiple times. You should see:
-- NGINX (Version 1) approximately 80% of the time
-- Apache (Version 2) approximately 20% of the time
 
 ### 1: Using ingress
 
@@ -110,7 +106,10 @@ Then access http://localhost:8080 multiple times. You should see:
    kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
    ```
 
-Then access http://<Instance_Ip>:8080 multiple times.
+Then access http://<Instance_Ip>:8080 multiple times, You should see:
+
+   - NGINX (Version 1) approximately 80% of the time
+   - Apache (Version 2) approximately 20% of the time
 
 ## Adjusting the Traffic Split
 
@@ -135,32 +134,8 @@ Then access http://<Instance_Ip>:8080 multiple times.
 - Deleting Kind Cluster:
 
     ```bash
-    kind deleter cluster --name dep-strg
+    kind delete cluster --name dep-strg
     ```
-
-## Why This Approach Works
-
-This approach works because:
-
-1. The Kubernetes service routes traffic randomly to pods that match its selector
-2. With 4 NGINX pods and 1 Apache pod, approximately 80% of requests go to NGINX and 20% to Apache
-3. By adjusting the number of pods, you can control the traffic distribution
-4. This approach is simple and doesn't require special ingress controllers or service mesh
-
-## Advantages of This Approach
-
-- Simple to implement
-- Works in any Kubernetes cluster
-- No special controllers or add-ons required
-- Easy to understand and visualize
-- Straightforward scaling to adjust traffic
-
-## Limitations
-
-- Less precise control over traffic percentages
-- Traffic distribution depends on pod availability and readiness
-- No header-based or cookie-based routing
-- No advanced traffic shaping capabilities
 
 ---
 
