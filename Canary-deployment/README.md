@@ -76,6 +76,8 @@
   kubectl get pods -n ingress-nginx
   ```
 
+  ![Screenshot 2025-05-30 122314](https://github.com/user-attachments/assets/d33a623f-5070-48fb-8ae5-ca12bf46d84e)
+  
 - Create the namespace
 
     ```bash
