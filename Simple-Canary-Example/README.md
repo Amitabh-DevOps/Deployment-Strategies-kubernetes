@@ -38,6 +38,8 @@ In this example:
 - Both deployments are selected by the same service using the common label `app: web`
 - Traffic is distributed proportionally to the number of pods
 
+---
+
 ### Prerequisites to try this:
 
 1. EC2 Instance with Ubuntu OS
@@ -65,6 +67,8 @@ In this example:
 - `apache-configmap.yaml`: ConfigMap with custom HTML for Apache
 - `canary-service.yaml`: Service that selects both deployments
 - `ingress.yaml`: Optional ingress for external access
+
+---
 
 ## Setup Instructions
 
@@ -124,6 +128,8 @@ In this example:
    kubectl apply -f ingress.yaml
    ```
 
+---
+
 ## Testing the Canary Deployment
 
 ### 1: Using ingress
@@ -138,6 +144,8 @@ Then access `http://<Instance_Ip>:8080` multiple times, You should see:
 
    - NGINX (Version 1) approximately 80% of the time
    - Apache (Version 2) approximately 20% of the time
+
+---
 
 ## Adjusting the Traffic Split
 
@@ -156,6 +164,7 @@ Then access `http://<Instance_Ip>:8080` multiple times, You should see:
    kubectl scale deployment nginx-deployment -n simple-canary --replicas=0
    kubectl scale deployment apache-deployment -n simple-canary --replicas=5
    ```
+---
 
 ## Cleanup
 
