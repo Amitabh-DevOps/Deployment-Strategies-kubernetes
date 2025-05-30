@@ -76,13 +76,13 @@
   kubectl get pods -n ingress-nginx
   ```
 
-### 1. Create the namespace
+- Create the namespace
 
     ```bash
     kubectl apply -f canary-namespace.yml
     ```
 
-### 2. Deploy both versions with different replica counts
+- Deploy both versions with different replica counts
 
     ```bash
     # Deploy v1 (stable version - without footer)
@@ -92,13 +92,13 @@
     kubectl apply -f canary-v2-deployment.yaml  # 1 replica (20% of traffic)
     ```
 
-### 3. Create the combined service that selects both versions
+- Create the combined service that selects both versions
 
     ```bash
     kubectl apply -f canary-combined-service.yaml
     ```
 
-### 4. (Optional) Create the ingress for external access
+- Create the ingress for external access
 
     ```bash
     kubectl apply -f ingress.yaml
@@ -114,9 +114,7 @@
 
 ## Testing the Canary Deployment
 
-### 1 Using ingress
-
-If you've set up the ingress controller:
+- Using ingress
 
     ```bash
     kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
@@ -129,7 +127,7 @@ Then access http://<Instance_Ip>:8080 multiple times. You should see:
 
 ## Adjusting the Traffic Split
 
-To change the percentage of traffic going to each version, adjust the number of replicas:
+- To change the percentage of traffic going to each version, adjust the number of replicas:
 
     ```bash
     # Increase canary traffic to ~40% (3:2 ratio)
@@ -147,7 +145,7 @@ To change the percentage of traffic going to each version, adjust the number of 
 
 ## Monitoring
 
-Monitor your deployments during the canary process:
+- Monitor your deployments during the canary process:
 
     ```bash
     # Check pods
@@ -158,7 +156,6 @@ Monitor your deployments during the canary process:
 
     # Check the service
     kubectl describe svc online-shop-service -n canary-ns
-
     ```
 
 - Open a new tab of terminal, connnect EC2 instance and run the watch command to monitor the deployment
@@ -168,6 +165,8 @@ Monitor your deployments during the canary process:
     ```
 
 ## Cleanup
+
+- deleteting namespace:
 
     ```bash
     kubectl delete namespace canary-ns
