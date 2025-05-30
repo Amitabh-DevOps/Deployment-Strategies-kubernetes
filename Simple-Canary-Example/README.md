@@ -1,6 +1,34 @@
-# Simple Canary Deployment Example
+## Canary Deployment Strategy
 
-This directory contains a simple canary deployment example using NGINX (stable version) and Apache (canary version) web servers. This example demonstrates canary deployment using the pod-based approach, where traffic distribution is controlled by the number of replicas.
+- A Canary Deployment in Kubernetes is a strategy where a new version of an app is released to a small group of users first. If it works well, it’s gradually rolled out to everyone. This helps reduce the risk of issues affecting all users.
+
+
+### How it works ?
+
+- <b>Deploy New Version (Canary Release):</b>
+  - The new version of the application is first deployed to a small subset of users or a specific group of pods, called the canary.
+  - This is typically a small fraction of the total traffic, so the new version gets tested by a limited audience while the majority of users continue to use the stable, old version.
+- <b>Traffic Splitting:</b>
+  - The traffic is split between the old version (the stable version) and the new version (the canary version).
+  - Initially, a small percentage (e.g., 5–10%) of the traffic is routed to the new canary version, and the rest continues to go to the old version. 
+- <b>Monitor and Analyze:</b>
+  - While the canary version is live, you monitor it for any errors or issues (like crashes, performance problems, etc.).
+- <b>Gradual Rollout:</b>
+  - If the canary version performs well, the percentage of traffic routed to the canary version is gradually increased.
+  - This can be done in stages, such as 10%, 25%, 50%, and then 100%, depending on how confident you are with the new release.
+  - The gradual increase reduces the risk of impacting all users if something goes wrong with the new version. 
+
+| Pro's    | Con's |
+| -------- | ------- |
+| Version released for subset of users | Slow rollout    |
+| Convenient for error rate and performance monitoring | Fine tune traffic distribution can be expensive |
+
+> [!Note]
+> This deployment strategy is suitable for Production environment.
+
+![image](https://github.com/user-attachments/assets/5d08039b-e06b-4c08-aaff-b68dc435d570)
+
+---
 
 ## Overview
 
