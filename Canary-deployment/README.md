@@ -106,6 +106,8 @@
     kubectl apply -f ingress.yaml
     ```
 
+---
+
 ## How it works
 
 1. Both deployments use the same app label (`app: online-shop`) but different version labels
@@ -113,6 +115,8 @@
 3. Traffic is distributed proportionally to the number of pods for each version:
    - v1 (without footer): 4 pods = ~80% of traffic
    - v2 (with footer): 1 pod = ~20% of traffic
+
+---
 
 ## Testing the Canary Deployment
 
@@ -126,6 +130,7 @@ Then access `http://<Instance_Ip>:8080` multiple times. You should see:
 - The v1 version (without footer) approximately 80% of the time
 - The v2 version (with footer) approximately 20% of the time
 
+---
 
 ## Adjusting the Traffic Split
 
@@ -144,6 +149,8 @@ Then access `http://<Instance_Ip>:8080` multiple times. You should see:
     kubectl scale deployment online-shop-v1 -n canary-ns --replicas=0
     kubectl scale deployment online-shop-v2 -n canary-ns --replicas=5
     ```
+
+---
 
 ## Monitoring
 
@@ -165,6 +172,8 @@ Then access `http://<Instance_Ip>:8080` multiple times. You should see:
     ```bash
     watch kubectl get pods -n canary-ns
     ```
+
+---
 
 ## Cleanup
 
