@@ -71,7 +71,7 @@
     kubectl get all -n blue-green-ns
     ```
 
-- Forward the `online-shop-blue-deployment-service` svc Nodeport with the EC2 instance port 3001
+- Forward the `online-shop-blue-deployment-service` svc Port with Nodeport
 
     ```bash
     kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service 30001:3001 -n blue-green-ns &
@@ -89,7 +89,7 @@
 
 ---
 
-- Forward the `online-shop-green-deployment-service` svc Nodeport with the EC2 instance port 3000
+- Forward the `online-shop-green-deployment-service` svc Port with Nodeport
 
     ```bash
     kubectl port-forward --address 0.0.0.0 svc/online-shop-green-deployment-service 30000:3000 -n blue-green-ns &
