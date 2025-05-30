@@ -134,7 +134,7 @@
     pkill -f "kubectl port-forward"
     ```
 
-- Now again, forward the `online-shop-blue-deployment-service` svc Nodeport with the EC2 instance port 3001
+- Now again, forward the `online-shop-blue-deployment-service` svc Port with Nodeport
 
     ```bash
     kubectl port-forward --address 0.0.0.0 svc/online-shop-blue-deployment-service 30001:3001 -n blue-green-ns &
