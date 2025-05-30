@@ -72,7 +72,7 @@
     watch kubectl get pods -n rolling-ns
     ```
 
-- You have successfully accessed the online_shop webpage. Now edit the deployment file and change the image from <b>`online_shop`</b> to <b>`online_shop_without_footer`</b> and apply.
+- You have successfully accessed the `online_shop with footer` webpage. Now edit the deployment file and change the image from <b>`online_shop`</b> to <b>`online_shop_without_footer`</b> and apply.
 
     ```bash
     kubectl apply -f . 
