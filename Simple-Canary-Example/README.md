@@ -60,6 +60,15 @@ In this example:
    -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector"}]'
    ```
 
+- Varify Ingress-Controller is running or not using command:
+
+  ```bash
+  kubectl get pods -n ingress-nginx
+  ```
+
+  ![Screenshot 2025-05-30 122314](https://github.com/user-attachments/assets/d33a623f-5070-48fb-8ae5-ca12bf46d84e)
+
+  
 1. Create the namespace:
    ```bash
    kubectl apply -f namespace.yaml
