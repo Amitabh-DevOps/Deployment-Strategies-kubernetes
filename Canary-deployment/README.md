@@ -78,31 +78,31 @@
 
 ### 1. Create the namespace
 
-  ```bash
-  kubectl apply -f canary-namespace.yml
-  ```
+    ```bash
+    kubectl apply -f canary-namespace.yml
+    ```
 
 ### 2. Deploy both versions with different replica counts
 
-  ```bash
-  # Deploy v1 (stable version - without footer)
-  kubectl apply -f canary-v1-deployment.yaml  # 4 replicas (80% of traffic)
+    ```bash
+    # Deploy v1 (stable version - without footer)
+    kubectl apply -f canary-v1-deployment.yaml  # 4 replicas (80% of traffic)
 
-  # Deploy v2 (canary version - with footer)
-  kubectl apply -f canary-v2-deployment.yaml  # 1 replica (20% of traffic)
-  ```
+    # Deploy v2 (canary version - with footer)
+    kubectl apply -f canary-v2-deployment.yaml  # 1 replica (20% of traffic)
+    ```
 
 ### 3. Create the combined service that selects both versions
 
-  ```bash
-  kubectl apply -f canary-combined-service.yaml
-  ```
+    ```bash
+    kubectl apply -f canary-combined-service.yaml
+    ```
 
 ### 4. (Optional) Create the ingress for external access
 
-  ```bash
-  kubectl apply -f ingress.yaml
-  ```
+    ```bash
+    kubectl apply -f ingress.yaml
+    ```
 
 ## How it works
 
@@ -118,9 +118,9 @@
 
 If you've set up the ingress controller:
 
-  ```bash
-  kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
-  ```
+    ```bash
+    kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 --address 0.0.0.0 &
+    ```
 
 Then access http://<Instance_Ip>:8080 multiple times. You should see:
 - The v1 version (without footer) approximately 80% of the time
@@ -131,35 +131,35 @@ Then access http://<Instance_Ip>:8080 multiple times. You should see:
 
 To change the percentage of traffic going to each version, adjust the number of replicas:
 
-  ```bash
-  # Increase canary traffic to ~40% (3:2 ratio)
-  kubectl scale deployment online-shop-v1 -n canary-ns --replicas=3
-  kubectl scale deployment online-shop-v2 -n canary-ns --replicas=2
+    ```bash
+    # Increase canary traffic to ~40% (3:2 ratio)
+    kubectl scale deployment online-shop-v1 -n canary-ns --replicas=3
+    kubectl scale deployment online-shop-v2 -n canary-ns --replicas=2
 
-  # Increase canary traffic to ~60% (2:3 ratio)
-  kubectl scale deployment online-shop-v1 -n canary-ns --replicas=2
-  kubectl scale deployment online-shop-v2 -n canary-ns --replicas=3
+    # Increase canary traffic to ~60% (2:3 ratio)
+    kubectl scale deployment online-shop-v1 -n canary-ns --replicas=2
+    kubectl scale deployment online-shop-v2 -n canary-ns --replicas=3
 
-  # Complete migration to v2 (0:5 ratio)
-  kubectl scale deployment online-shop-v1 -n canary-ns --replicas=0
-  kubectl scale deployment online-shop-v2 -n canary-ns --replicas=5
-  ```
+    # Complete migration to v2 (0:5 ratio)
+    kubectl scale deployment online-shop-v1 -n canary-ns --replicas=0
+    kubectl scale deployment online-shop-v2 -n canary-ns --replicas=5
+    ```
 
 ## Monitoring
 
 Monitor your deployments during the canary process:
 
-  ```bash
-  # Check pods
-  kubectl get pods -n canary-ns
+    ```bash
+    # Check pods
+    kubectl get pods -n canary-ns
 
-  # Check the distribution of pods
-  kubectl get pods -n canary-ns --show-labels
+    # Check the distribution of pods
+    kubectl get pods -n canary-ns --show-labels
 
-  # Check the service
-  kubectl describe svc online-shop-service -n canary-ns
+    # Check the service
+    kubectl describe svc online-shop-service -n canary-ns
 
-  ```
+    ```
 
 - Open a new tab of terminal, connnect EC2 instance and run the watch command to monitor the deployment
 
@@ -169,9 +169,9 @@ Monitor your deployments during the canary process:
 
 ## Cleanup
 
-  ```bash
-  kubectl delete namespace canary-ns
-  ```
+    ```bash
+    kubectl delete namespace canary-ns
+    ```
 
 ## Advantages of Pod-Based Canary Deployment
 
