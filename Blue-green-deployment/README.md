@@ -110,6 +110,7 @@
 >
 >   Check the URL and port carefully 
 
+---
 
 - Now, go to the `online-shop-without-footer-blue-deployment.yaml` manifest file and edit the service's selector field with **`online-shop-green`** selector.
 
