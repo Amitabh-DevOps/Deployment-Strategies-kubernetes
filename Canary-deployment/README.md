@@ -172,28 +172,6 @@ Then access `http://<Instance_Ip>:8080` multiple times. You should see:
     kind deleter cluster --name dep-strg
     ```
 
-## Advantages of Pod-Based Canary Deployment
-
-1. **Simplicity**: No complex annotations or configurations needed
-2. **Reliability**: Works consistently across different Kubernetes environments
-3. **Visibility**: Easy to understand and visualize the traffic distribution
-4. **Compatibility**: Works with any application without special requirements
-5. **No MIME type issues**: Avoids problems with static assets and content types
-
-## Comparison with Ingress-Based Canary
-
-| Feature | Pod-Based Canary | Ingress-Based Canary |
-|---------|-----------------|---------------------|
-| **Complexity** | Low | High |
-| **Precision** | Based on pod count | Percentage-based |
-| **Requirements** | Standard Kubernetes | Ingress controller with canary support |
-| **Configuration** | Simple | Complex annotations |
-| **Reliability** | High | Can have issues with static assets |
-| **Resource Usage** | Efficient | Similar |
-| **Header/Cookie Routing** | Not supported | Supported |
-| **Implementation** | Single service, multiple deployments | Multiple services, ingress rules |
-
-
 ---
 
 > [!Note]
